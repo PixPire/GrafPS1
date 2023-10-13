@@ -1,6 +1,5 @@
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.awt.*;
 
 public class Main {
@@ -14,9 +13,9 @@ public class Main {
 
 
 
-        JPanel mainPanel = new JPanel();
+
         JPanel toolsPanel = new JPanel();
-        JPanel canvasPanel = new JPanel();
+
         toolsPanel.setLayout(new BorderLayout());
 
 
@@ -24,31 +23,40 @@ public class Main {
         toolsPanel.add(toolBar, BorderLayout.PAGE_START);
 
         JButton toolbarButton1 = new JButton();
-        toolbarButton1.setIcon(new ImageIcon("LineMouse.gif"));
+        toolbarButton1.setIcon(new ImageIcon("LineMouse.png"));
 
         JButton toolbarButton2 = new JButton();
-        toolbarButton2.setIcon(new ImageIcon("CircleMouse.gif"));
+        toolbarButton2.setIcon(new ImageIcon("CircleMouse.png"));
 
-        JButton toolbarButton3 = new JButton("Prost");
-        toolbarButton3.setIcon(new ImageIcon("LineMouse.gif"));
+        JButton toolbarButton3 = new JButton();
+        toolbarButton3.setIcon(new ImageIcon("RectangleMouse.png"));
 
         JButton toolbarButton4 = new JButton();
-        toolbarButton4.setIcon(new ImageIcon("LineXY.gif"));
+        toolbarButton4.setIcon(new ImageIcon("LineXY.png"));
 
-        JButton toolbarButton5 = new JButton("OkrągXY");
-        toolbarButton5.setIcon(new ImageIcon("LineMouse.gif"));
+        JButton toolbarButton5 = new JButton();
+        toolbarButton5.setIcon(new ImageIcon("CircleXY.png"));
 
-        JButton toolbarButton6 = new JButton("ProstXY");
-        toolbarButton6.setIcon(new ImageIcon("LineMouse.gif"));
+        JButton toolbarButton6 = new JButton();
+        toolbarButton6.setIcon(new ImageIcon("RectangleXY.png"));
 
         JButton toolbarButton7 = new JButton();
-        toolbarButton7.setIcon(new ImageIcon("line.gif"));
+        toolbarButton7.setIcon(new ImageIcon("ResizeMouse.png"));
 
-        JButton toolbarButton8 = new JButton("Zapisz");
-        toolbarButton8.setIcon(new ImageIcon("LineMouse.gif"));
+        JButton toolbarButton8 = new JButton();
+        toolbarButton8.setIcon(new ImageIcon("ResizeXY.png"));
 
-        JButton toolbarButton9 = new JButton("Wczytaj");
-        toolbarButton9.setIcon(new ImageIcon("LineMouse.gif"));
+        JButton toolbarButton9 = new JButton();
+        toolbarButton9.setIcon(new ImageIcon("MoveMouse.png"));
+
+        JButton toolbarButton10 = new JButton();
+        toolbarButton10.setIcon(new ImageIcon("MoveXY.png"));
+
+        JButton toolbarButton11 = new JButton();
+        toolbarButton11.setIcon(new ImageIcon("Import.png"));
+
+        JButton toolbarButton12 = new JButton();
+        toolbarButton12.setIcon(new ImageIcon("Eksport.png"));
 
 
         toolBar.add(toolbarButton1);
@@ -60,6 +68,9 @@ public class Main {
         toolBar.add(toolbarButton7);
         toolBar.add(toolbarButton8);
         toolBar.add(toolbarButton9);
+        toolBar.add(toolbarButton10);
+        toolBar.add(toolbarButton11);
+        toolBar.add(toolbarButton12);
 
         Container content = f.getContentPane();
 
@@ -84,7 +95,9 @@ public class Main {
         toolbarButton7.addActionListener(e -> ButtonPressed(dc,7));
         toolbarButton8.addActionListener(e -> ButtonPressed(dc,8));
         toolbarButton9.addActionListener(e -> ButtonPressed(dc,9));
-
+        toolbarButton10.addActionListener(e -> ButtonPressed(dc,10));
+        toolbarButton11.addActionListener(e -> ButtonPressed(dc,11));
+        toolbarButton12.addActionListener(e -> ButtonPressed(dc,12));
     }
 
 
@@ -133,11 +146,9 @@ public class Main {
                 x2Text.setText("Wprowadź Średnicę");
                 y2Text.setVisible(false);
                 f2.setVisible(true);
-
                 break;
             case 6:
                 f2.setVisible(true);
-
                 break;
             case 7:
                 dc.saveCanvas();

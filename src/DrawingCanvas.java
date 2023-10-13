@@ -8,6 +8,8 @@ public class DrawingCanvas extends JComponent{
     private int width = 1000;
     private int height = 500;
 
+    DrawnFigure figures[];
+
     // Image in which we're going to draw
     private Image image;
     // Graphics2D object ==> used to draw on
@@ -80,7 +82,7 @@ public class DrawingCanvas extends JComponent{
     }
     public void drawCircle(int x, int y, int r) {
         x = x-(r/2);
-        y = y-(r/2);
+        y = y+(r/2);
         g2.drawOval(x,height - y-181,r,r);
         repaint();
     }
