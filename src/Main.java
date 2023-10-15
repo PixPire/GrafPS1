@@ -1,6 +1,8 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,7 +11,7 @@ public class Main {
 
 
         f.setSize(1000,500);
-        f.setTitle("Tutaj Była Zmiana");
+        f.setTitle("Grafika Komputerowa Rysowanie Prymitywów");
 
 
 
@@ -26,19 +28,19 @@ public class Main {
         toolbarButton1.setIcon(new ImageIcon("LineMouse.png"));
 
         JButton toolbarButton2 = new JButton();
-        toolbarButton2.setIcon(new ImageIcon("CircleMouse.png"));
+        toolbarButton2.setIcon(new ImageIcon("RectangleMouse.png"));
 
         JButton toolbarButton3 = new JButton();
-        toolbarButton3.setIcon(new ImageIcon("RectangleMouse.png"));
+        toolbarButton3.setIcon(new ImageIcon("CircleMouse.png"));
 
         JButton toolbarButton4 = new JButton();
         toolbarButton4.setIcon(new ImageIcon("LineXY.png"));
 
         JButton toolbarButton5 = new JButton();
-        toolbarButton5.setIcon(new ImageIcon("CircleXY.png"));
+        toolbarButton5.setIcon(new ImageIcon("RectangleXY.png"));
 
         JButton toolbarButton6 = new JButton();
-        toolbarButton6.setIcon(new ImageIcon("RectangleXY.png"));
+        toolbarButton6.setIcon(new ImageIcon("CircleXY.png"));
 
         JButton toolbarButton7 = new JButton();
         toolbarButton7.setIcon(new ImageIcon("ResizeMouse.png"));
@@ -72,10 +74,16 @@ public class Main {
         toolBar.add(toolbarButton11);
         toolBar.add(toolbarButton12);
 
+        JLabel labelX = new JLabel("X: ");
+        JLabel labelY = new JLabel("Y: ");
+
+        toolBar.add(labelX);
+        toolBar.add(labelY);
+
         Container content = f.getContentPane();
 
         content.setLayout(new BorderLayout());
-        DrawingCanvas dc = new DrawingCanvas();
+        DrawingCanvas dc = new DrawingCanvas(labelX,labelY);
         content.add(dc, BorderLayout.CENTER);
         content.add(toolsPanel, BorderLayout.NORTH);
 
@@ -98,7 +106,11 @@ public class Main {
         toolbarButton10.addActionListener(e -> ButtonPressed(dc,10));
         toolbarButton11.addActionListener(e -> ButtonPressed(dc,11));
         toolbarButton12.addActionListener(e -> ButtonPressed(dc,12));
+
+
+
     }
+
 
 
     static void ButtonPressed(DrawingCanvas dc, int buttonNr){
@@ -131,32 +143,41 @@ public class Main {
                 dc.drawLineMouse();
                 break;
             case 2:
-                dc.drawCircleMouse();
+                dc.drawRectangleMouse();
                 break;
             case 3:
-                dc.drawRectangleMouse();
+                dc.drawCircleMouse();
                 break;
             case 4:
                 f2.setVisible(true);
-
                 break;
             case 5:
+                f2.setVisible(true);
+                break;
+            case 6:
                 x1Text.setText("Wprowadź X");
                 y1Text.setText("Wprowadź Y");
                 x2Text.setText("Wprowadź Średnicę");
                 y2Text.setVisible(false);
                 f2.setVisible(true);
                 break;
-            case 6:
-                f2.setVisible(true);
-                break;
             case 7:
-                dc.saveCanvas();
+                dc.usageMode=4;
                 break;
             case 8:
-                dc.loadCanvas();
+                dc.usageMode=5;
                 break;
             case 9:
+                dc.usageMode=6;
+                break;
+            case 10:
+                dc.usageMode=7;
+                break;
+            case 11:
+                dc.loadCanvas();
+                break;
+            case 12:
+                dc.saveCanvas();
                 break;
 
         }
@@ -169,23 +190,48 @@ public class Main {
         int y1 = Integer.parseInt(y1text.getText());
         int x2 = Integer.parseInt(x2text.getText());
         int y2 = 0;
-        if(buttonNr!=5){y2 = Integer.parseInt(y2text.getText());}
+        if(buttonNr!=6){y2 = Integer.parseInt(y2text.getText());}
 
 
         switch (buttonNr){
-
+            case 1:
+                dc.usageMode=1;
+                break;
+            case 2:
+                dc.usageMode=2;
+                break;
+            case 3:
+                dc.usageMode=3;
+                break;
             case 4:
-                dc.drawLineXY(x1, y1, x2, y2);
+                dc.usageMode=0;
+                dc.addLineXY(x1, y1, x2, y2);
                 break;
             case 5:
-                dc.drawCircleXY(x1, y1, x2, y2);
+                dc.usageMode=0;
+                dc.addRectangleXY(x1, y1, x2, y2);
                 break;
             case 6:
-                dc.drawRectangleXY(x1, y1, x2, y2);
+                dc.usageMode=0;
+                dc.addCircleXY(x1, y1, x2, y2);
+                break;
+            case 7:
+                dc.usageMode=4;
+                break;
+            case 8:
+                dc.usageMode=5;
+                break;
+            case 9:
+                dc.usageMode=6;
+                break;
+            case 10:
+                dc.usageMode=7;
+                break;
+            case 11, 12:
+                dc.usageMode=0;
                 break;
             case default:
                 break;
-
         }
 
     }
