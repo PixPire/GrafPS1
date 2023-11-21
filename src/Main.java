@@ -59,6 +59,10 @@ public class Main {
 
         JButton toolbarButton12 = new JButton();
         toolbarButton12.setIcon(new ImageIcon("Eksport.png"));
+        JButton toolbarButton13 = new JButton("Dodaj Bezier");
+
+        JButton toolbarButton14 = new JButton("Przesuń Bezier");
+
 
 
         toolBar.add(toolbarButton1);
@@ -73,6 +77,9 @@ public class Main {
         toolBar.add(toolbarButton10);
         toolBar.add(toolbarButton11);
         toolBar.add(toolbarButton12);
+        toolBar.add(toolbarButton13);
+        toolBar.add(toolbarButton14);
+
 
         JLabel labelX = new JLabel("X: ");
         JLabel labelY = new JLabel("Y: ");
@@ -106,7 +113,8 @@ public class Main {
         toolbarButton10.addActionListener(e -> ButtonPressed(dc,10));
         toolbarButton11.addActionListener(e -> ButtonPressed(dc,11));
         toolbarButton12.addActionListener(e -> ButtonPressed(dc,12));
-
+        toolbarButton13.addActionListener(e -> ButtonPressed(dc,13));
+        toolbarButton14.addActionListener(e -> ButtonPressed(dc,14));
 
 
     }
@@ -178,6 +186,13 @@ public class Main {
                 break;
             case 12:
                 dc.saveCanvas();
+                break;
+            case 13:
+                dc.usageMode=8;
+                dc.newBezierCurve=true;
+                break;
+            case 14:
+                dc.usageMode=9;
                 break;
 
         }

@@ -19,13 +19,20 @@ public class DrawingCanvas extends JComponent{
 
     private int selectedFigureNumber;
 
-    public int usageMode = 0; //0 -> idle, 1->draw Line, 2->draw rectangle, 3-> draw circle, 4-> resizeMouse, 5->resizeXY, 6-> moveMouse, 7-> moveXY
+    public int usageMode = 0; //0 -> idle, 1->draw Line, 2->draw rectangle, 3-> draw circle, 4-> resizeMouse, 5->resizeXY, 6-> moveMouse, 7-> moveXY, 8-> Draw Bezier
     private Boolean afterFirstClick = false;
     private int x1,y1,x2,y2;
     private int lastX=0;
     private int lastY=0;
 
-    ArrayList<DrawnFigure> figures = new ArrayList<DrawnFigure>();
+    public boolean newBezierCurve=true;
+    BezierCurve actualBezierCurve=new BezierCurve();
+    BezierCurve selectedBezierCurve = null;
+
+
+    ArrayList<DrawnFigure> figures = new ArrayList<>();
+
+    ArrayList<BezierCurve> bezierCurves = new ArrayList<>();
 
 
     // Image in which we're going to draw
@@ -227,7 +234,31 @@ public class DrawingCanvas extends JComponent{
                     }
                 }
 
+                if(usageMode==8) {
+                    //co się dzieje po kliknięciu kiedy rysuję Bezier Curve
+                    x1 = e.getX();
+                    y1 = height - e.getY() - 106;
+                    System.out.println("Naciśnięto X: " + x1 + " Y: " + y1);
 
+                    if(newBezierCurve){
+                        actualBezierCurve = new BezierCurve();
+                        bezierCurves.add(actualBezierCurve);
+                        actualBezierCurve.addPoint(x1, y1);
+                        System.out.println("Nowa Krzywa Beziera od X: " + x1 + " Y: " + y1);
+                        newBezierCurve=false;
+                    }else{
+                        actualBezierCurve.addPoint(x1,y1);
+                        System.out.println("Nowy punkt do krzywej beziera X: " + x1 + " Y: " + y1);
+                    }
+                    paintAll();
+
+                }
+
+                if(usageMode==9){
+                    x1 = e.getX();
+                    y1 = height - e.getY() - 106;
+
+                }
 
 
             }
@@ -326,6 +357,9 @@ public class DrawingCanvas extends JComponent{
 
                     }
                 }
+                if(usageMode==9&&selectedBezierCurve!=null){
+                    //sprawdź który punkt beziera jest wciśnięty, przesuń go
+                }
                 //System.out.println("X: " + currentX + " Y: " + currentY);
             }
         });
@@ -374,10 +408,47 @@ void paintAll(){
         }
 
     }
+    System.out.println("Narysowano figury, teraz krzywa beziera");
+   for(int i=0;i<bezierCurves.size();i++){
+       System.out.println("Rysowanie Beziera");
+       drawBezierCurve(bezierCurves.get(i));
+   }
 }
 
+    private void drawBezierCurve(BezierCurve bezierCurve) {
+        int pointsNumber = bezierCurve.pointsX.size()-2;
+        int[] xDim = new int[30];
+        int[] yDim = new int[30];
 
-void WypiszAll(){
+        for(int i=0;i<30;i++){
+            double t= (double) i/29;
+            int x=0,y=0;
+            for(int j=0;j<=pointsNumber;j++){
+                double bernstein = calculateBernstein(pointsNumber,j)*Math.pow(1-t,pointsNumber-j)*Math.pow(t,j);
+                x+=bernstein*bezierCurve.pointsX.get(j);
+                y+=bernstein*bezierCurve.pointsY.get(j);
+            }
+            xDim[i]=x;
+            yDim[i]=y;
+        }
+
+
+        for(int i=0;i<bezierCurve.pointsX.size();i++){
+            g2.drawOval(bezierCurve.pointsX.get(i), bezierCurve.pointsY.get(i), 2,2);
+            g2.fillOval(bezierCurve.pointsX.get(i), bezierCurve.pointsY.get(i), 2,2);
+        }
+
+        g2.drawPolyline(bezierCurve.xDim, bezierCurve.yDim,bezierCurve.yDim.length);
+
+    }
+
+    private int calculateBernstein(int n, int k){
+        if(k==0||k==n){
+            return 1;
+        }else return calculateBernstein(n-1, k-1)+calculateBernstein(n-1,k);
+    }
+
+    void WypiszAll(){
     for (DrawnFigure figure:figures
     ) {
         switch (figure.type) {
@@ -578,4 +649,12 @@ void WypiszAll(){
         }
         selectedFigure=null;
     }
+
+
+    void searchBezierCurve(int x, int y){
+
+    }
+
+
+
 }
